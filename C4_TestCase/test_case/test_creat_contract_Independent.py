@@ -116,7 +116,7 @@ class TestAutomation:
             data =  {
                 "contractInfo": "独立合同",
                 "opportunityId": self.opportunity_id,
-                "opportunityName": "自动化测试商机-"+self.opportunity_name,
+                "opportunityName": "自动化测试企业级商机-"+self.opportunity_name,
                 "accountContactName": "宋秀津",
                 "cartNum": [
                     #16002732-广联达斑马进度技术服务费
@@ -136,7 +136,7 @@ class TestAutomation:
                 ],
                 "sourceType": 4,
                 "saleOrgName": "广联达科技股份有限公司",
-                "quotationName": "自动化测试合同-"+self.opportunity_name,
+                "quotationName": "自动化测试企业级合同-"+self.opportunity_name,
                 "c4ClientCode": "1000043004",
                 "accountID": "1000043004",
                 "accountName": "平安喜乐",
