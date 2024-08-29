@@ -86,7 +86,7 @@ def test_case2(driver, locator):
 
         # 输入商机名称
         logging.info("输入商机名称")
-        locator.wait_and_send_keys("//input[contains(@maxlength, '255')]", f"自动化测试商机{month_day_time}")
+        locator.wait_and_send_keys("//input[contains(@maxlength, '255')]", f"自动化测试企业级商机{month_day_time}")
 
         # 选择客户
         logging.info("选择客户")
