@@ -2,7 +2,7 @@ import datetime
 import logging
 import time
 
-from C4_TestCase.test_base.locators import LocatorActions
+from C4_TestCase.base.locators import LocatorActions
 from selenium import webdriver
 from selenium.common import TimeoutException, NoSuchElementException, WebDriverException
 from selenium.webdriver.chrome.options import Options
@@ -40,8 +40,8 @@ def login(driver):
         driver.get(
             'https://cas-server.glodon.com/cas/login?service=https%3A%2F%2Fcas-server.glodon.com%2Fcas%2Fidp%2Fprofile%2FSAML2%2FCallback%3FentityId%3DHTTPS%253A%252F%252Fmy500749-sso.c4c.saphybriscloud.cn')
         time.sleep(2)
-        driver.find_element(By.ID, 'username').send_keys('LTC-3')
-        driver.find_element(By.ID, 'password').send_keys('Glodon@2023')
+        driver.find_element(By.ID, 'username').send_keys('')
+        driver.find_element(By.ID, 'password').send_keys('')
         driver.find_element(By.ID, 'SM_BTN_1').click()
         time.sleep(3)
         logging.info("登录成功")

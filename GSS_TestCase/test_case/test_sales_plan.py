@@ -3,7 +3,7 @@ import logging
 import random
 import time
 
-
+import mysql
 
 from GSS_TestCase.base.locators import LocatorActions
 from selenium import webdriver
@@ -11,6 +11,8 @@ from selenium.common import TimeoutException, NoSuchElementException, WebDriverE
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from mysql.connector import Error
+
 
 
 plan_monney=round(random.uniform(0.001, 0.05), 3)
@@ -43,8 +45,8 @@ def login(driver, locator):
         driver.get(
             'https://cas-server.glodon.com/cas/login?service=http%3A%2F%2Fgss-test.glodon.com%2Fweb%2F')
         time.sleep(2)
-        driver.find_element(By.ID, 'username').send_keys('LTC-3')
-        driver.find_element(By.ID, 'password').send_keys('Glodon@2023')
+        driver.find_element(By.ID, 'username').send_keys('')
+        driver.find_element(By.ID, 'password').send_keys('')
         driver.find_element(By.ID, 'SM_BTN_1').click()
         time.sleep(3)
         logging.info("登录成功")
@@ -139,25 +141,30 @@ def test_case1(driver, locator):
     finally:
         logging.info("测试用例2执行完毕")
 
+
 def test_case2(driver, locator):
     try:
         # 假设有其他测试步骤和断言
         logging.info("测试用例2开始执行")
-        # 搜索编辑
 
-
-
-        time.sleep(2)
-        locator.wait_and_click('//*[@id="app"]/section/section/section/div[3]/div/div[2]/div/div/div/div/div/div[1]/div/div[1]/div[2]/div[1]/button[1]/span',5)
-        # 获取需要清除的元素
-        input_element = driver.find_element(By.XPATH,  '//*[@id="app"]/section/section/section/div[3]/div/div[2]/div/div/div/div/div/div[2]/div[2]/table/tbody/tr[2]/td[7]/div/div/input')
-
-        # 尝试使用 JavaScript 清除输入框内容
-        driver.execute_script("arguments[0].value = '';", input_element)
-        logging.info("成功清除了输入框内容")
-        locator.wait_and_send_keys('/html/body/div[1]/section/section/section/div[3]/div/div[2]/div/div/div/div/div/div[2]/div[2]/table/tbody/tr[2]/td[7]/div/div/input',plan_monney)
+        time.sleep(3)
+        locator.wait_and_click('//*[@id="app"]/section/section/section/div[3]/div/div[2]/div/div/div/div/div/div[1]/div/div[1]/div[1]/div/span[2]',2)
         time.sleep(1)
-        locator.wait_and_click('//*[@id="app"]/section/section/section/div[3]/div/div[2]/div/div/div/div/div/div[1]/div/div[1]/div[2]/div[1]/button[1]/span',100)
+        locator.wait_and_click_css_selector("div[title='未盘点合同'] div[class='ant-select-item-option-content']",2)
+        # 搜索编辑
+        time.sleep(2)
+        locator.wait_and_click('//*[@id="app"]/section/section/section/div[3]/div/div[2]/div/div/div/div/div/div[2]/div[2]/table/tbody/tr[2]/td[1]/label',2)
+        time.sleep(1)
+        locator.wait_and_click('//*[@id="app"]/section/section/section/div[3]/div/div[2]/div/div/div/div/div/div[1]/div/div[1]/div[2]/div[1]/button[2]/span',2)
+        time.sleep(1)
+        locator.wait_and_send_keys('//*[@id="form_item_plannedAmount"]',plan_monney)
+        time.sleep(1)
+        locator.wait_and_click("//button[@class='css-q7pu1z ant-btn ant-btn-primary']",2)
+        time.sleep(3)
+
+
+
+
 
 
         #批量编辑

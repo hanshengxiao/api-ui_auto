@@ -19,7 +19,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 class TestAutomation:
     def __init__(self):
         self.order_id = None
-        self.opportunity_name = "0828-1721"
+        self.opportunity_name = "验证实收项目-收货单"
         self.cart_number = 2
         self.opportunity_id = None
         self.driver = None
@@ -31,11 +31,11 @@ class TestAutomation:
     def connect_to_database(self):
         try:
             conn = mysql.connector.connect(
-                host='10.0.106.61',
-                port=8010,
-                user='opportunity',
-                password='opportunitytest2024',
-                database='opportunity'
+                host='',
+                port=,
+                user='',
+                password='',
+                database=''
             )
             if conn.is_connected():
                 cursor = conn.cursor()
@@ -74,8 +74,8 @@ class TestAutomation:
         while retry_count < max_retries:
             try:
                 self.driver.get('https://cas-server.glodon.com/cas/login?service=http://zjtest.gyuncai.com/login/sso/glodonLogin')
-                self.driver.find_element(By.ID, 'username').send_keys('LTC-3')
-                self.driver.find_element(By.ID, 'password').send_keys('Glodon@2023')
+                self.driver.find_element(By.ID, 'username').send_keys('')
+                self.driver.find_element(By.ID, 'password').send_keys('')
                 time.sleep(2)
                 self.driver.find_element(By.ID, 'SM_BTN_1').click()
                 logging.info("登录成功")
@@ -223,9 +223,9 @@ class TestAutomation:
         time.sleep(3)
         self.driver.find_element(By.XPATH,'//*[@id ="app-main"]/div/div[2]/div[1]/div[3]/div[3]/div/div[3]/span/button[2]').click()
         # 尝试关闭超期提醒
-        time.sleep(3)
+        time.sleep(10)
         try:
-            self.driver.find_element(By.XPATH,'/html/body/div[5]/div/div[3]/button[2]/span').click()
+            self.driver.find_element(By.XPATH,"//button[@class='el-button el-button--default el-button--small el-button--primary ']").click()
             logging.info("报价单包含非固定成本价物料，请您注意核对物料成本价提醒已关闭")
         except TimeoutException:
             logging.info("未检测到提醒，继续执行下一步")

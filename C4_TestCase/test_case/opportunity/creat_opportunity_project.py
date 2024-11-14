@@ -2,7 +2,7 @@ import datetime
 import logging
 import time
 
-from C4_TestCase.test_base.locators import LocatorActions
+from C4_TestCase.base.locators import LocatorActions
 from selenium import webdriver
 from selenium.common import TimeoutException, NoSuchElementException, WebDriverException
 from selenium.webdriver.chrome.options import Options
@@ -40,8 +40,8 @@ def login(driver):
         driver.get(
             'https://cas-server.glodon.com/cas/login?service=https%3A%2F%2Fcas-server.glodon.com%2Fcas%2Fidp%2Fprofile%2FSAML2%2FCallback%3FentityId%3DHTTPS%253A%252F%252Fmy500749-sso.c4c.saphybriscloud.cn')
         time.sleep(2)
-        driver.find_element(By.ID, 'username').send_keys('LTC-3')
-        driver.find_element(By.ID, 'password').send_keys('Glodon@2023')
+        driver.find_element(By.ID, 'username').send_keys('')
+        driver.find_element(By.ID, 'password').send_keys('')
         driver.find_element(By.ID, 'SM_BTN_1').click()
         time.sleep(3)
         logging.info("登录成功")
@@ -69,6 +69,8 @@ def test_case2(driver, locator):
         locator.wait_and_click("//span[@title='销售']", 100)
         locator.wait_and_click("//a[@title='商机']", 30)
 
+        
+
         # 尝试关闭超期提醒
         try:
             overdue_confirm_button = WebDriverWait(driver, 10).until(
@@ -86,13 +88,13 @@ def test_case2(driver, locator):
 
         # 输入商机名称
         logging.info("输入商机名称")
-        locator.wait_and_send_keys("//input[contains(@maxlength, '255')]", f"自动化测试企业级商机{month_day_time}")
+        locator.wait_and_send_keys("//input[contains(@maxlength, '255')]", f"自动化测试项目级非集采商机{month_day_time}")
 
         # 选择客户
         logging.info("选择客户")
         time.sleep(3)
         locator.wait_and_send_keys('//*[@id="objectvalueselectorHppqevK8aaYFSgcH3xeA1G_348-inputField-inner"]',
-                                   "平安喜乐 1000043004")
+                                   "北京易博中天科技有限公司 1000046443")
         driver.find_element(By.XPATH,
                             '//*[@id="objectvalueselectorHppqevK8aaYFSgcH3xeA1G_348-inputField-inner"]').send_keys(
             Keys.ENTER)
@@ -102,13 +104,13 @@ def test_case2(driver, locator):
         time.sleep(3)
         locator.wait_and_click('//*[@id="dropdownlistbox6db9c5750fd2a06b9d82f9cabfc49b74_352-inner"]')
         time.sleep(3)
-        locator.wait_and_click("//li[contains(@class, 'sapMLIB') and .//div[contains(text(), '企业级')]]")
+        locator.wait_and_click("//li[contains(@class, 'sapMLIB') and .//div[contains(text(), '项目级非集采')]]")
 
         # 选择联系人
         logging.info("选择联系人")
         time.sleep(2)
         locator.wait_and_send_keys('//*[@id="objectvalueselectorDJFL3kMLhK_OJoDgE62YbW_360-inputField-inner"]',
-                                   "宋秀津")
+                                   "韩圣孝")
         driver.find_element(By.XPATH,
                             '//*[@id="objectvalueselectorDJFL3kMLhK_OJoDgE62YbW_360-inputField-inner"]').send_keys(
             Keys.ENTER)
@@ -133,6 +135,16 @@ def test_case2(driver, locator):
         time.sleep(3)
         locator.wait_and_click("//li[contains(@class, 'sapMLIB') and .//div[contains(text(), '支持')]]")
 
+        # 选择实体项目
+        logging.info("选择实体项目")
+        time.sleep(3)
+        locator.wait_and_click_by_id('dropdownlistboxbf8d813660b080d12db0ee642ab52970_3027-arrow', 15)
+        time.sleep(4)
+        locator.wait_and_click('//*[@id="__item1428-listdefintionoNHI9gQjBq6rOK2P1W7QGm_3671-0"]', 15)
+
+
+
+
         # 点击并选择实际购买层级
         logging.info("选择实际购买层级")
         time.sleep(3)
@@ -140,50 +152,24 @@ def test_case2(driver, locator):
         time.sleep(3)
         locator.wait_and_click("//li[contains(@class, 'sapMLIB') and .//div[contains(text(), '集团公司/局公司')]]")
 
-        # 点击并选择是否有规划
-        logging.info("选择是否有规划")
-        time.sleep(3)
-        locator.wait_and_click_by_id('dropdownlistbox7d9a4f7280a67b7d935aa644bfa342bd_623-arrow', 30)
-        time.sleep(3)
-        locator.wait_and_click("//li[contains(@class, 'sapMLIB') and .//div[contains(text(), '是')]]")
-
-        # 点击并选择是否有负责人
-        logging.info("选择是否有负责人")
-        time.sleep(3)
-        locator.wait_and_send_keys_by_id('dropdownlistboxc48f243ef19ff574ce8ea8648732b880_627-inner', "是")
 
 
-        # 点击并选择是否有需求
-        logging.info("选择是否有需求")
-        time.sleep(3)
-        locator.wait_and_send_keys_by_id('dropdownlistboxfa17bfb6e2a94344dbe4dbbb8f889df4_631-inner', "是")
 
-
-        # 点击并选择是否有预算
-        logging.info("选择是否有预算")
-        time.sleep(3)
-        locator.wait_and_send_keys_by_id('dropdownlistbox4ea225a267c5a45982364c556b6d9072_635-inner', "是")
-        time.sleep(3)
-        driver.find_element(By.ID,
-                            'dropdownlistbox4ea225a267c5a45982364c556b6d9072_635-inner').send_keys(
-            Keys.ENTER)
-
-
-        # 添加产品--企业级
-        logging.info("添加产品--企业级")
+        # 添加产品--项目级非集采
+        logging.info("添加产品--项目级非集采")
         time.sleep(3)
         locator.wait_and_click_by_id('button3vks4Vj2c4Y2G2O3ss9AM0_962-inner', 15)
         time.sleep(4)
         locator.wait_and_click("//span[contains(@data-sap-ui, 'objectvalueselectorh')]", 15)
         time.sleep(3)
-        locator.wait_and_click("//span[@title='其他']", 15)
+        locator.wait_and_click("//span[@title='物料']", 15)
         time.sleep(1)
         locator.wait_and_send_keys("//input[@value='0.00']", "43000")
 
-        # 保存企业级商机
+        # 保存项目级非集采商机
 
         time.sleep(15)
-        logging.info("保存企业级商机")
+        logging.info("保存项目级非集采商机")
         locator.wait_and_click("//bdi[contains(@id, 'aac')]", 15)
 
         print(month_day_time)
