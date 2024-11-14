@@ -2,7 +2,7 @@ import datetime
 import logging
 import time
 
-from locators import LocatorActions
+from C4_TestCase.test_base.locators import LocatorActions
 from selenium import webdriver
 from selenium.common import TimeoutException, NoSuchElementException, WebDriverException
 from selenium.webdriver.chrome.options import Options
@@ -14,11 +14,11 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 # 获取当前时间
 now = datetime.datetime.now()
-month_day_time = now.strftime("%m%d%H%M%S")
+month_day_time = now.strftime("%m%d-%H%M")
 
 # 配置日志记录
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-# Chrome 浏览器配置
+# Chrome 浏览器配置s
 chrome_options = Options()
 chrome_options.add_argument("--start-maximized")
 chrome_options.add_argument("--disable-gpu")
@@ -86,7 +86,7 @@ def test_case2(driver, locator):
 
         # 输入商机名称
         logging.info("输入商机名称")
-        locator.wait_and_send_keys("//input[contains(@maxlength, '255')]", f"自动化测试商机{month_day_time}")
+        locator.wait_and_send_keys("//input[contains(@maxlength, '255')]", f"自动化测试企业级商机{month_day_time}")
 
         # 选择客户
         logging.info("选择客户")
@@ -103,10 +103,91 @@ def test_case2(driver, locator):
         locator.wait_and_click('//*[@id="dropdownlistbox6db9c5750fd2a06b9d82f9cabfc49b74_352-inner"]')
         time.sleep(3)
         locator.wait_and_click("//li[contains(@class, 'sapMLIB') and .//div[contains(text(), '企业级')]]")
-        # 保存企业级商机
-        logging.info("保存企业级商机")
+
+        # 选择联系人
+        logging.info("选择联系人")
         time.sleep(2)
+        locator.wait_and_send_keys('//*[@id="objectvalueselectorDJFL3kMLhK_OJoDgE62YbW_360-inputField-inner"]',
+                                   "宋秀津")
+        driver.find_element(By.XPATH,
+                            '//*[@id="objectvalueselectorDJFL3kMLhK_OJoDgE62YbW_360-inputField-inner"]').send_keys(
+            Keys.ENTER)
+
+        # 选择联系人角色
+        logging.info("选择联系人角色")
+        time.sleep(3)
+        locator.wait_and_send_keys_by_id('dropdownlistbox7c095e0122254f5bbe23443c743896d6_384-inner', "使用人")
+        locator.wait_and_click_by_id('__item230-content', 30)
+
+        # 点击并选择来源
+        logging.info("选择来源")
+        time.sleep(3)
+        locator.wait_and_click_by_id('dropdownlistboxmyokgu9MOqQ2YL10sdWYN0_364-arrow', 30)
+        time.sleep(3)
+        locator.wait_and_click("//li[contains(@class, 'sapMLIB') and .//div[contains(text(), '客户拜访')]]")
+
+        # 点击并选择对计划的态度
+        logging.info("选择对计划的态度")
+        time.sleep(3)
+        locator.wait_and_click_by_id('dropdownlistboxbf8d813660b080d12db0ee642ab52970_388-arrow', 30)
+        time.sleep(3)
+        locator.wait_and_click("//li[contains(@class, 'sapMLIB') and .//div[contains(text(), '支持')]]")
+
+        # 点击并选择实际购买层级
+        logging.info("选择实际购买层级")
+        time.sleep(3)
+        locator.wait_and_click_by_id('dropdownlistbox1824dff254b1e84c03f67f7a307bdd6c_408-arrow', 30)
+        time.sleep(3)
+        locator.wait_and_click("//li[contains(@class, 'sapMLIB') and .//div[contains(text(), '集团公司/局公司')]]")
+
+        # 点击并选择是否有规划
+        logging.info("选择是否有规划")
+        time.sleep(3)
+        locator.wait_and_click_by_id('dropdownlistbox7d9a4f7280a67b7d935aa644bfa342bd_623-arrow', 30)
+        time.sleep(3)
+        locator.wait_and_click("//li[contains(@class, 'sapMLIB') and .//div[contains(text(), '是')]]")
+
+        # 点击并选择是否有负责人
+        logging.info("选择是否有负责人")
+        time.sleep(3)
+        locator.wait_and_send_keys_by_id('dropdownlistboxc48f243ef19ff574ce8ea8648732b880_627-inner', "是")
+
+
+        # 点击并选择是否有需求
+        logging.info("选择是否有需求")
+        time.sleep(3)
+        locator.wait_and_send_keys_by_id('dropdownlistboxfa17bfb6e2a94344dbe4dbbb8f889df4_631-inner', "是")
+
+
+        # 点击并选择是否有预算
+        logging.info("选择是否有预算")
+        time.sleep(3)
+        locator.wait_and_send_keys_by_id('dropdownlistbox4ea225a267c5a45982364c556b6d9072_635-inner', "是")
+        time.sleep(3)
+        driver.find_element(By.ID,
+                            'dropdownlistbox4ea225a267c5a45982364c556b6d9072_635-inner').send_keys(
+            Keys.ENTER)
+
+
+        # 添加产品--企业级
+        logging.info("添加产品--企业级")
+        time.sleep(3)
+        locator.wait_and_click_by_id('button3vks4Vj2c4Y2G2O3ss9AM0_962-inner', 15)
+        time.sleep(4)
+        locator.wait_and_click("//span[contains(@data-sap-ui, 'objectvalueselectorh')]", 15)
+        time.sleep(3)
+        locator.wait_and_click("//span[@title='其他']", 15)
+        time.sleep(1)
+        locator.wait_and_send_keys("//input[@value='0.00']", "43000")
+
+        # 保存企业级商机
+
+        time.sleep(15)
+        logging.info("保存企业级商机")
         locator.wait_and_click("//bdi[contains(@id, 'aac')]", 15)
+
+        print(month_day_time)
+
 
 
     except TimeoutException as e:
@@ -136,14 +217,22 @@ def main():
 
         # 执行测试用例2
         test_case2(driver, locator)
+        print("自动化测试商机"+month_day_time)
 
     except Exception as e:
         logging.error(f"脚本执行过程中出现异常: {e}")
     finally:
+        # 设置日志记录器
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        # 初始化倒计时的秒数
+        seconds_left = 20
+        # 开始倒计时
+        while seconds_left > 0:
+            logging.info(f"剩余时间: {seconds_left}秒")
+            time.sleep(1)  # 暂停1秒
+            seconds_left -= 1
+        logging.info("倒计时结束")
         # 关闭浏览器
-        time.sleep(5000)
         driver.quit()
-        logging.info("浏览器已关闭，测试完成")
-
 if __name__ == "__main__":
     main()
